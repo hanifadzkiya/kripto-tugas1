@@ -49,5 +49,7 @@ class VigenereAutoKey extends Cipher {
 
 }
 
+export { VigenereAutoKey };
+
 let cipherKey = new VigenereAutoKey("halo");
 console.log(cipherKey.decrypt(cipherKey.encrypt("hanifadzkiya")));

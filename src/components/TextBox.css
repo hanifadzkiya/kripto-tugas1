@@ -1,0 +1,11 @@
+.text-box {
+  display: grid;
+}
+
+.text-box > button {
+  margin-top: 1rem;
+}
+
+.text-box > input {
+  margin-top: 1rem;
+}

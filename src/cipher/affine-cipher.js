@@ -42,5 +42,7 @@ class Key {
     }
 }
 
+export { AffineCipher };
+
 let cipher = new AffineCipher(7, 10);
 console.log(cipher.decrypt(cipher.encrypt("kripto")));

@@ -42,5 +42,7 @@ class VigenereTransposisi extends Cipher {
 
 }
 
+export { VigenereTransposisi };
+
 let cipherKey = new VigenereTransposisi("rangga");
 console.log(cipherKey.decrypt(cipherKey.encrypt("tugasmakalah")));

@@ -74,5 +74,7 @@ class VigenereFull extends Cipher {
 
 }
 
+export { VigenereFull };
+
 let cipherKey = new VigenereFull("halo");
 console.log(cipherKey.decrypt(cipherKey.encrypt("hanifadzkiya")));

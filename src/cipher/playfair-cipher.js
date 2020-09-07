@@ -111,5 +111,7 @@ class Position {
     }
 }
 
+export { PlayfairCipher };
+
 let cipherKey = new PlayfairCipher("halo");
 console.log(cipherKey.decrypt(cipherKey.encrypt("hanifadzkiya")));

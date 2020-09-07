@@ -40,5 +40,7 @@ class VigenereExtended extends Cipher {
 
 }
 
+export { VigenereExtended };
+
 let cipherKey = new VigenereExtended("halo");
 console.log(cipherKey.decrypt(cipherKey.encrypt("hanifadzkiya")));

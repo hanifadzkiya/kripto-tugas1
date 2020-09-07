@@ -1,0 +1,20 @@
+.App {
+  text-align: center;
+  padding: 2rem;
+}
+
+.rows .row {
+  display: inline-block;
+  height: 100%;
+}
+
+.options {
+  display: grid;
+  position: relative;
+  top: 12rem;
+  margin: 1rem;
+}
+
+.options > * {
+  margin-bottom: 1rem;
+}
