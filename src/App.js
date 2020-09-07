@@ -3,16 +3,16 @@ import React, { useState } from 'react';
 import TextBox from './components/TextBox.js';
 
 import { AffineCipher } from './cipher/affine-cipher.js';
+import { HillCipher } from './cipher/hill-cipher.js';
 import { PlayfairCipher } from './cipher/playfair-cipher.js';
 import { Vigenere } from './cipher/vigenere.js';
 import { VigenereAutoKey } from './cipher/vigenere-auto-key.js';
 import { VigenereExtended } from './cipher/vigenere-extended.js';
 import { VigenereFull } from './cipher/vigenere-full.js';
 import { VigenereTransposisi } from './cipher/vigenere-transposisi.js';
+import { WRONG_KEY_FORMAT } from './constants.js';
 
 import './App.css';
-
-const WRONG_KEY_FORMAT = 'Wrong key format! Please refer to the placeholder.';
 
 const CIPHER_OPTIONS = [
   { name: 'Affine',
@@ -31,6 +31,7 @@ const CIPHER_OPTIONS = [
       }
     }
   },
+  { name: 'Hill Cipher', class: HillCipher},
   { name: 'Playfair', class: PlayfairCipher},
   { name: 'Vigenere', class: Vigenere },
   { name: 'Vigenere Auto-Key', class: VigenereAutoKey },
