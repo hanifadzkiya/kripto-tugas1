@@ -31,7 +31,7 @@ const CIPHER_OPTIONS = [
       }
     }
   },
-  { name: 'Hill Cipher', class: HillCipher},
+  { name: 'Hill Cipher', class: HillCipher, keyPlaceholder: '9-digit key, ex: "gybnqkurp"'},
   { name: 'Playfair', class: PlayfairCipher},
   { name: 'Vigenere', class: Vigenere },
   { name: 'Vigenere Auto-Key', class: VigenereAutoKey },
@@ -67,6 +67,7 @@ function App() {
 
   const renderButtonEncode = () => (
     <button onClick={() => {
+      if (!cipher) return;
       try {
         const processedText = cipher.allowBinary
           ? plainText
@@ -87,6 +88,7 @@ function App() {
 
   const renderButtonDecode = () => (
     <button onClick={() => {
+      if (!cipher) return;
       try {
         const decoder = cipher.getMachine
           ? cipher.getMachine(key)
