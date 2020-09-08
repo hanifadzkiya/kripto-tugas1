@@ -3,12 +3,12 @@ import { Cipher } from "./cipher.js";
 class VigenereAutoKey extends Cipher {
 
     constructor(key) {
-        key = key.replace(/ /gi, "");
+        key = key.replace(/ /gi, "").toUpperCase();
         super(key);
     }
 
     encrypt(plain) {
-        plain = plain.replace(/ /gi, "");
+        plain = this.removeSpace(plain);
         let indexKey = 0;
         let encryptText = "";
         let uppercasePlain = plain.toUpperCase();
@@ -29,13 +29,13 @@ class VigenereAutoKey extends Cipher {
             }
             autoKey += plain[index].toUpperCase();
         }
-        console.log(autoKey);
         return autoKey;
     }
 
     decrypt(encryptedText) {
         let indexKey = 0;
         let decryptText = "";
+        console.log(this.key);
         [...encryptedText].forEach(c => {
             decryptText += String.fromCharCode(
                 ((c.charCodeAt(0) - this.key.charCodeAt(indexKey)) + 26) % 26 + 65);

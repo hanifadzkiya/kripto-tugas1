@@ -9,11 +9,9 @@ class VigenereExtended extends Cipher {
     encrypt(plain) {
         let indexKey = 0;
         let encryptText = "";
-        let uppercaseKey = this.key.toUpperCase();
-        let uppercasePlain = plain.toUpperCase();
-        [...uppercasePlain].forEach(c => {
+        [...plain].forEach(c => {
             encryptText += String.fromCharCode(
-                (c.charCodeAt(0) + uppercaseKey.charCodeAt(indexKey)) % 256);
+                (c.charCodeAt(0) + this.key.charCodeAt(indexKey)) % 256);
             indexKey++;
             if (indexKey == this.key.length) {
                 indexKey = 0;
@@ -25,11 +23,9 @@ class VigenereExtended extends Cipher {
     decrypt(encryptedText) {
         let indexKey = 0;
         let decryptText = "";
-        let uppercaseKey = this.key.toUpperCase();
-        let uppercaseEncrypted = encryptedText.toUpperCase();
-        [...uppercaseEncrypted].forEach(c => {
+        [...encryptedText].forEach(c => {
             decryptText += String.fromCharCode(
-                (c.charCodeAt(0) - uppercaseKey.charCodeAt(indexKey) + 256) % 256);
+                (c.charCodeAt(0) - this.key.charCodeAt(indexKey) + 256) % 256);
             indexKey++;
             if (indexKey == this.key.length) {
                 indexKey = 0;
