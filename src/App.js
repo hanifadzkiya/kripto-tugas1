@@ -10,7 +10,7 @@ import { VigenereAutoKey } from './cipher/vigenere-auto-key.js';
 import { VigenereExtended } from './cipher/vigenere-extended.js';
 import { VigenereFull } from './cipher/vigenere-full.js';
 import { VigenereTransposisi } from './cipher/vigenere-transposisi.js';
-import { WRONG_KEY_FORMAT } from './constants.js';
+import { WRONG_KEY_FORMAT, CIPHER_TYPE_NOT_BINARY } from './constants.js';
 
 import './App.css';
 
@@ -46,6 +46,7 @@ function App() {
   const [key, setKey] = useState('');
   const [plainText, setPlainText] = useState('');
   const [cipherText, setCipherText] = useState('');
+  const [ext, setExt] = useState(null);
 
   const handleChangeSelector = ({target: {value}}) => {
     setCipher(CIPHER_OPTIONS.find(opt => opt.name === value));
@@ -75,7 +76,12 @@ function App() {
     <button onClick={() => {
       if (!cipher) return;
       try {
-        const processedText = cipher.allowBinary || CIPHER_OPTIONS.filter(opt => opt.allowBinary && cipher instanceof opt.class).length
+        const isCipherTypeBinary = cipher.allowBinary || CIPHER_OPTIONS.filter(opt => opt.allowBinary && cipher instanceof opt.class).length;
+        if (plainText instanceof Uint8Array && !isCipherTypeBinary) {
+          alert(CIPHER_TYPE_NOT_BINARY);
+          throw CIPHER_TYPE_NOT_BINARY;
+        }
+        const processedText = isCipherTypeBinary
           ? plainText
           : plainText.replace(/[^a-z]/gi, '').toUpperCase();
         let encoder;
@@ -90,7 +96,7 @@ function App() {
         setPlainText(processedText);
         setCipherText(encoder.encrypt(processedText));
       } catch (err) {
-        if (err !== WRONG_KEY_FORMAT)
+        if (err !== WRONG_KEY_FORMAT && err !== CIPHER_TYPE_NOT_BINARY)
           throw err;
       }
     }}>
@@ -100,7 +106,11 @@ function App() {
 
   const renderButtonDecode = () => (
     <button onClick={() => {
-      if (!cipher) return;
+      const isCipherTypeBinary = cipher.allowBinary || CIPHER_OPTIONS.filter(opt => opt.allowBinary && cipher instanceof opt.class).length;
+      if (cipherText instanceof Uint8Array && !isCipherTypeBinary) {
+        alert(CIPHER_TYPE_NOT_BINARY);
+        throw CIPHER_TYPE_NOT_BINARY;
+      }
       try {
         let decoder;
         if (cipher.name) {
@@ -113,7 +123,7 @@ function App() {
         }
         setPlainText(decoder.decrypt(cipherText));
       } catch (err) {
-        if (err !== WRONG_KEY_FORMAT)
+        if (err !== WRONG_KEY_FORMAT && err !== CIPHER_TYPE_NOT_BINARY)
           throw err;
       }
     }}>
@@ -130,6 +140,8 @@ function App() {
             rows={30}
             text={plainText}
             setText={setPlainText}
+            ext={ext}
+            setExt={setExt}
           />
         </div>
         <div className='row'>
@@ -146,6 +158,8 @@ function App() {
             rows={30}
             text={cipherText}
             setText={setCipherText}
+            ext={ext}
+            setExt={setExt}
           />
         </div>
       </div>
