@@ -16,6 +16,7 @@ import './App.css';
 
 const CIPHER_OPTIONS = [
   { name: 'Affine',
+    class: AffineCipher,
     keyPlaceholder: 'Key, ex: "1,2"',
     getMachine: (key) => {
       try {
@@ -63,7 +64,9 @@ function App() {
       placeholder={cipher?.keyPlaceholder || 'Key, ex: "samplekey"'}
       onChange={({target: {value}}) => {
         setKey(value);
-        cipher.needReload = true;
+        if (cipher && !cipher.name) {
+          setCipher(CIPHER_OPTIONS.find(opt => cipher instanceof opt.class));
+        }
       }}
     />
   );
@@ -76,7 +79,7 @@ function App() {
           ? plainText
           : plainText.replace(/[^a-z]/gi, '').toUpperCase();
         let encoder;
-        if (cipher.name || cipher.needReload) {
+        if (cipher.name) {
           encoder = cipher.getMachine
             ? cipher.getMachine(key)
             : new cipher.class(key);
@@ -100,7 +103,7 @@ function App() {
       if (!cipher) return;
       try {
         let decoder;
-        if (cipher.name || cipher.needReload) {
+        if (cipher.name) {
           decoder = cipher.getMachine
             ? cipher.getMachine(key)
             : new cipher.class(key);

@@ -35,7 +35,6 @@ class VigenereAutoKey extends Cipher {
     decrypt(encryptedText) {
         let indexKey = 0;
         let decryptText = "";
-        console.log(this.key);
         [...encryptedText].forEach(c => {
             decryptText += String.fromCharCode(
                 ((c.charCodeAt(0) - this.key.charCodeAt(indexKey)) + 26) % 26 + 65);
