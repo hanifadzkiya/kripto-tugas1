@@ -61,7 +61,10 @@ function App() {
     <input
       type='text'
       placeholder={cipher?.keyPlaceholder || 'Key, ex: "samplekey"'}
-      onChange={({target: {value}}) => setKey(value)}
+      onChange={({target: {value}}) => {
+        setKey(value);
+        cipher.needReload = true;
+      }}
     />
   );
 
@@ -69,12 +72,18 @@ function App() {
     <button onClick={() => {
       if (!cipher) return;
       try {
-        const processedText = cipher.allowBinary
+        const processedText = cipher.allowBinary || CIPHER_OPTIONS.filter(opt => opt.allowBinary && cipher instanceof opt.class).length
           ? plainText
           : plainText.replace(/[^a-z]/gi, '').toUpperCase();
-        const encoder = cipher.getMachine
-          ? cipher.getMachine(key)
-          : new cipher.class(key);
+        let encoder;
+        if (cipher.name || cipher.needReload) {
+          encoder = cipher.getMachine
+            ? cipher.getMachine(key)
+            : new cipher.class(key);
+          setCipher(encoder);
+        } else {
+          encoder = cipher;
+        }
         setPlainText(processedText);
         setCipherText(encoder.encrypt(processedText));
       } catch (err) {
@@ -90,9 +99,15 @@ function App() {
     <button onClick={() => {
       if (!cipher) return;
       try {
-        const decoder = cipher.getMachine
-          ? cipher.getMachine(key)
-          : new cipher.class(key);
+        let decoder;
+        if (cipher.name || cipher.needReload) {
+          decoder = cipher.getMachine
+            ? cipher.getMachine(key)
+            : new cipher.class(key);
+          setCipher(decoder);
+        } else {
+          decoder = cipher;
+        }
         setPlainText(decoder.decrypt(cipherText));
       } catch (err) {
         if (err !== WRONG_KEY_FORMAT)
