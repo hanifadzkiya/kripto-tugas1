@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import TextBox from './components/TextBox.js';
 
 import { AffineCipher } from './cipher/affine-cipher.js';
+import { EnigmaCipher } from './cipher/enigma-cipher.js';
 import { HillCipher } from './cipher/hill-cipher.js';
 import { PlayfairCipher } from './cipher/playfair-cipher.js';
 import { Vigenere } from './cipher/vigenere.js';
@@ -32,6 +33,7 @@ const CIPHER_OPTIONS = [
       }
     }
   },
+  { name: 'Enigma Cipher', class: EnigmaCipher},
   { name: 'Hill Cipher', class: HillCipher, keyPlaceholder: '9-digit key, ex: "gybnqkurp"'},
   { name: 'Playfair', class: PlayfairCipher},
   { name: 'Vigenere', class: Vigenere },
